@@ -5,26 +5,25 @@ class Profano
   def self.initialize()
 
     @profaneWords = ''
-    @cleanContent = true
+    #define condition
+    @cleanWords = true
 
   end
-  def self.loadProfaneWords(filePath)
+  def self.loadProfanoList(filePath)
     @profaneWords = CSV.read(filePath)
-    return @profaneWords
+    @profaneWords
   end
 
-  def self.profaneWordsFilter(content)
-    @cleanContent = true
+  def self.profanoFilter(content)
+    @cleanWords = true
+    #Detect white space split words
     @tokenizer = Tokenizer::WhitespaceTokenizer.new
     @content = content.to_s
-    @tokenizedContent = @tokenizer.tokenize(@content)
-    @tokenizedContent.each do |word|
-      if @profaneWords.include?([word])
-        @cleanContent = false
-      end
+    @tokenizeContent = @tokenizer.tokenize(@content)
+    @tokenizeContent.each do |word|
+      @cleanWords = false if @profaneWords.include?([word])
     end
-    return @cleanContent
+    @cleanWords
   end
-
 
 end
